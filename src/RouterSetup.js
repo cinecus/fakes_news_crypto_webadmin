@@ -11,6 +11,7 @@ import {
 
 import {
     Home,
+    AllContentPage,
     Products,
     SingleProduct,
     Error
@@ -19,15 +20,16 @@ import {
 const RouterSetup = () => {
     return (
         <Router>
-            <Navbar />
+            {/* <Navbar /> */}
             <Sidebar />
             <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/allcontentpage' element={<AllContentPage />} />
                 <Route path='/products' element={<Products />} />
                 <Route path='/products/:product_id' element={<SingleProduct />} />
                 <Route path='*' element={<Error />} />
             </Routes>
-            <Footer />
+            {/* <Footer /> */}
         </Router>
     )
 }
