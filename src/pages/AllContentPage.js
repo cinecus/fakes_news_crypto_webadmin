@@ -1,13 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 import 'antd/dist/antd.css';
-import { Table, Tag, Button, Input, DatePicker, Select, Tooltip } from 'antd';
+import { Table, Tag, Button, Input, DatePicker, Select, Tooltip, Modal } from 'antd';
 import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 const { Search } = Input
+const { RangePicker } = DatePicker;
+const { Option } = Select;
 
 const AllContentPage = () => {
-    const { RangePicker } = DatePicker;
-    const { Option } = Select;
+    const [visible, setVisible] = React.useState(false);
+    const [confirmLoading, setConfirmLoading] = React.useState(false);
+    const [modalText, setModalText] = React.useState('Content of the modal');
+
+    const showModal = () => {
+        setVisible(true);
+    };
+
+    const handleOk = () => {
+        setModalText('The modal will be closed after two seconds');
+        setConfirmLoading(true);
+        setTimeout(() => {
+            setVisible(false);
+            setConfirmLoading(false);
+        }, 2000);
+    };
+
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+    };
     const children = [];
     for (let i = 10; i < 36; i++) {
         children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
@@ -92,8 +113,9 @@ const AllContentPage = () => {
         },
     ];
     return (<Wrapper>
-        <FormContainer>
-            <Button type="primary" style={{ 'justifySelf': 'end', 'marginLeft': 'auto' }}>เพิ่มบทความ</Button>
+        <FormContainer style={{ 'justifyContent': 'end' }}>
+            <Button type="primary" style={{ 'marginRight': '10px' }}>เพิ่มบทความ</Button>
+            <Button style={{ 'marginLeft': '10px' }} onClick={showModal}>เพิ่ม tags</Button>
         </FormContainer>
         <FormContainer>
             <RangePicker
@@ -131,6 +153,15 @@ const AllContentPage = () => {
             </Button>
             <Button icon={<DeleteOutlined />} style={{ 'marginLeft': '10px' }}>ล้างค่า</Button>
         </FormContainer>
+        <Modal
+            title="Title"
+            visible={visible}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+        >
+            <p>{modalText}</p>
+        </Modal>
         <Table dataSource={dataSource} columns={columns} />
     </Wrapper>)
 };
@@ -142,7 +173,7 @@ const Wrapper = styled.div`
     flex-direction:column;
     justify-content:center;
     width:85vw;
-    margin-left:18rem;
+    margin-left:20rem;
     margin-right:3rem;
     margin-top:3rem;
 `

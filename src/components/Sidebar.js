@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components';
-
+import { Link } from 'react-router-dom'
 const Sidebar = () => {
     return (
         <Wrapper>
             <AdminImage />
             <div className='admin-name'>Cinecus CC</div>
             <div className='underline'></div>
-            <MenuButton>หน้าหลัก</MenuButton>
-            <MenuButton>ดูบทความทั้งหมด</MenuButton>
-            <MenuButton>เพิ่มบทความ</MenuButton>
+            <MenuButton>
+                <Link to="/" style={{ 'textDecoration': 'none' }}>หน้าหลัก</Link>
+            </MenuButton>
+            <MenuButton><Link to="/allcontent">ดูบทความทั้งหมด</Link></MenuButton>
+            <MenuButton><Link to="/addcontent">เพิ่มบทความ</Link></MenuButton>
             <LogoutButton>ออกจากระบบ</LogoutButton>
         </Wrapper>
     )
@@ -30,6 +32,10 @@ const Wrapper = styled.div`
     top: 0;
     left: 0;
     overflow-x: hidden;
+    a{
+        text-decoration:none;
+        color:white;
+    }
     .admin-name{
         margin-top:1rem;
         font-size:1.5rem;

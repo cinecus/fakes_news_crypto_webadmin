@@ -14,6 +14,7 @@ import {
     AllContentPage,
     Products,
     SingleProduct,
+    AddContentPage,
     Error
 } from './pages'
 
@@ -24,7 +25,8 @@ const RouterSetup = () => {
             <Sidebar />
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/allcontentpage' element={<AllContentPage />} />
+                <Route path='/allcontent' element={<AllContentPage />} />
+                <Route path='/addcontent' element={<AddContentPage />} />
                 <Route path='/products' element={<Products />} />
                 <Route path='/products/:product_id' element={<SingleProduct />} />
                 <Route path='*' element={<Error />} />
