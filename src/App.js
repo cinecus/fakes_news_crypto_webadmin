@@ -1,13 +1,14 @@
 // import 'bulma/css/bulma.css'
 import RouterSetup from './RouterSetup';
 import styled from 'styled-components';
+import { Layout, Menu } from 'antd';
 
 function App() {
   return (
     <>
-      <Wrapper>
+      <Layout>
         <RouterSetup />
-      </Wrapper>
+      </Layout>
     </>
   );
 }

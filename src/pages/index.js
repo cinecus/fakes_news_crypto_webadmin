@@ -1,15 +1,19 @@
 import Home from './HomePage'
 import Products from './ProductsPage'
 import SingleProduct from './SingleProductPage'
-import AllContentPage from './AllContentPage'
-import AddContentPage from './AddContentPage'
+import AllArticlePage from './Article/AllArticlePage'
+import AddArticlePage from './Article/AddArticlePage'
+import EditArticlePage from './Article/EditArticlePage'
+import LoginPage from './LoginPage'
 import Error from './ErrorPage'
 
 export {
     Home,
-    AllContentPage,
-    AddContentPage,
+    AllArticlePage,
+    AddArticlePage,
+    EditArticlePage,
     Products,
     SingleProduct,
+    LoginPage,
     Error
 }

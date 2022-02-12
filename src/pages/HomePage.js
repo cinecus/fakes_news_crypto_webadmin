@@ -1,11 +1,13 @@
 import React from 'react'
 import { Hero } from '../components'
 import styled from 'styled-components';
+import { Layout, Menu } from 'antd';
+import 'antd/dist/antd.css';
 
 const HomePage = () => {
     return (
         <Wrapper>
-            <Box>
+            <Box >
                 <div className='title'>จำนวนผู้เข้าชมเว็บ</div>
                 <div className='count'>1000</div>
             </Box>
@@ -24,14 +26,12 @@ export default HomePage
 const Wrapper = styled.div`
     display:flex;
     justify-content:center;
-    width:85vw;
-    margin-left:18rem;
-    margin-right:3rem;
+    width:100vw;
     margin-top:3rem;
 `
 
 const Box = styled.div`
-    background:#4363D8;
+    background:#030852;
     width:300px;
     height:150px;
     margin-left:3rem;

@@ -1,29 +1,83 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
+import { Layout, Menu } from 'antd';
+import {
+    DesktopOutlined,
+    PieChartOutlined,
+    FileOutlined,
+    TeamOutlined,
+    UserOutlined,
+    SolutionOutlined,
+    LogoutOutlined
+} from '@ant-design/icons';
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context/auth_context';
+
+const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu;
+
 const Sidebar = () => {
+    const { fetchUserInfo, first_name, last_name } = useAuthContext()
+    const [collapsed, setCollapsed] = useState(false)
+    const toggle = () => {
+        setCollapsed(!collapsed)
+    };
+
+    const navigate = useNavigate()
+    // useEffect(() => {
+    //     fetchUserInfo()
+    // }, [first_name, last_name])
     return (
-        <Wrapper>
-            <AdminImage />
-            <div className='admin-name'>Cinecus CC</div>
-            <div className='underline'></div>
-            <MenuButton>
-                <Link to="/" style={{ 'textDecoration': 'none' }}>หน้าหลัก</Link>
-            </MenuButton>
-            <MenuButton><Link to="/allcontent">ดูบทความทั้งหมด</Link></MenuButton>
-            <MenuButton><Link to="/addcontent">เพิ่มบทความ</Link></MenuButton>
-            <LogoutButton>ออกจากระบบ</LogoutButton>
-        </Wrapper>
+
+        <Sider collapsible collapsed={collapsed} onCollapse={toggle} style={{ 'min-height': '100vh' }}>
+            {!collapsed && (
+                <>
+                    <AdminImage />
+                    <AdminName>{first_name} {last_name}</AdminName>
+                </>
+            )}
+            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                <Menu.Item key="1" icon={<DesktopOutlined />}>
+                    <Link to='/'>
+                        หน้าหลัก
+                    </Link>
+                </Menu.Item>
+                <SubMenu key="sub1" icon={<SolutionOutlined />} title="ดูข่าวและบทความ">
+                    <Menu.Item key="3">ข่าว</Menu.Item>
+                    <Menu.Item key="4">
+                        <Link to='/allarticle'>
+                            บทความ
+                        </Link>
+                    </Menu.Item>
+                </SubMenu>
+                <SubMenu key="sub2" icon={<FileOutlined />} title="เพิ่มบทความ/ข่าว">
+                    <Menu.Item key="6">เขียนข่าว</Menu.Item>
+                    <Menu.Item key="8">
+                        <Link to='/addarticle'>
+                            เขียนบทความ
+                        </Link>
+                    </Menu.Item>
+                </SubMenu>
+                {!collapsed &&
+                    <Menu.Item key="4" icon={<LogoutOutlined />} style={{ position: 'absolute', bottom: '6%', zIndex: 3, }}
+                        onClick={() => {
+                            localStorage.removeItem("token_id")
+                            localStorage.removeItem("user_id")
+                            navigate('/authen')
+                        }}>
+                        ออกจากระบบ
+                    </Menu.Item>
+                }
+
+            </Menu>
+        </Sider>
     )
 }
 
 export default Sidebar
 
 const Wrapper = styled.div`
-    width:15vw;
     height:100vh;
-    background:#4363D8;
-    padding:2rem;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -31,13 +85,12 @@ const Wrapper = styled.div`
     z-index: 1;
     top: 0;
     left: 0;
-    overflow-x: hidden;
     a{
         text-decoration:none;
         color:white;
     }
     .admin-name{
-        margin-top:1rem;
+        margin:1rem 2.5rem;
         font-size:1.5rem;
         font-weight:normal;
         color:#fff;
@@ -51,9 +104,25 @@ const Wrapper = styled.div`
     }
 `
 
+const AdminName = styled.div`
+    margin:1rem 2.5rem;
+    font-size:1.5rem;
+    font-weight:normal;
+    color:#fff;
+`
+
+const Underline = styled.div`
+    margin-top:1.5rem;
+    height:1.5px;
+    width:110%;
+    background:#000;
+    margin-bottom:2rem;
+`
+
 const AdminImage = styled.div`
-    width:11rem;
-    height:11rem;
+    width:10vw;
+    height:20vh;
+    margin:1rem auto;
     border-radius:50%;
     background:#FFF6F6;
 `
@@ -77,7 +146,8 @@ const MenuButton = styled.div`
     }
 `
 
-const LogoutButton = styled(MenuButton)`
+const LogoutButton = styled.div`
+    color:#fff;
     justify-self:end;
     margin-top:auto;
 `
