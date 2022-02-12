@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import { Form, Input, Button, Checkbox, Layout, Card, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom'
 import { UserOutlined, LoginOutlined } from '@ant-design/icons';
-import { url } from '../utils/api';
+import { url } from '../../utils/api';
 import axios from 'axios';
 
 const LoginPage = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const [user_id, setUserId] = useState('')
+    const [message, setMessage] = useState('')
+    const [toggle, setToggle] = useState(false)
     const LoginAPI = (obj) => {
         setLoading(true)
         const config = {
@@ -26,6 +28,8 @@ const LoginPage = () => {
                 setLoading(false)
             }).catch((err) => {
                 console.log('err', err);
+                setMessage('*ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง')
+                setToggle(true)
                 setLoading(false)
             })
     }
@@ -39,13 +43,17 @@ const LoginPage = () => {
         console.log('Failed:', errorInfo);
     };
 
-
-
     useEffect(() => {
         if (!!user_id) {
             navigate('/')
         }
     }, [user_id])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setToggle(false)
+        }, 3000)
+    }, [toggle])
     return (
         <Wrapper>
             <Card title={<><UserOutlined /> LOG IN</>} bordered={false} style={{ width: 500 }} headStyle={{ background: '#061178', color: '#fff' }}>
@@ -84,6 +92,7 @@ const LoginPage = () => {
                                 LOG IN
                             </Button>
                         </Form.Item>
+                        {toggle && <p style={{ color: 'red', marginLeft: '25px' }}>{message}</p>}
                     </Form>
                 </Spin>
             </Card>

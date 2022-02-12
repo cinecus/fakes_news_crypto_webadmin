@@ -4,7 +4,7 @@ import SingleProduct from './SingleProductPage'
 import AllArticlePage from './Article/AllArticlePage'
 import AddArticlePage from './Article/AddArticlePage'
 import EditArticlePage from './Article/EditArticlePage'
-import LoginPage from './LoginPage'
+import LoginPage from './Auth/LoginPage'
 import Error from './ErrorPage'
 
 export {
