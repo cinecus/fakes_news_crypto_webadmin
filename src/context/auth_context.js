@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
             }
             axios(config)
                 .then((res) => {
-                    //console.log('res', res);
+                    console.log('res', res);
                     const { user } = res.data.result
                     dispatch({ type: 'GET_USER_INFO', payload: user })
                     setLoading(false)
@@ -41,9 +41,20 @@ export const AuthProvider = ({ children }) => {
             setLoading(false)
         }
     }
-    useEffect(() => {
-        fetchUserInfo()
-    }, [])
+
+    // const Logout = () => {
+    //     setLoading(true)
+    //     try {
+    //         dispatch({ type: 'RESET_USER' })
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.log('error', error)
+    //         setLoading(false)
+    //     }
+    // }
+    // useEffect(() => {
+    //     fetchUserInfo()
+    // }, [])
     return (
         <AuthContext.Provider value={{ ...state, fetchUserInfo }}>
             {children}

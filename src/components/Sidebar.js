@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Spin, Avatar } from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -12,30 +12,73 @@ import {
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../context/auth_context';
+import { url } from '../utils/api';
+import axios from "axios";
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 const Sidebar = () => {
-    const { fetchUserInfo, first_name, last_name } = useAuthContext()
+    //const { fetchUserInfo, first_name, last_name } = useAuthContext()
     const [collapsed, setCollapsed] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [name, setName] = useState({
+        first_name: '',
+        last_name: ''
+    })
     const toggle = () => {
         setCollapsed(!collapsed)
     };
+    useEffect(() => {
+        fetchUserInfo()
+    }, [])
 
-    const navigate = useNavigate()
     // useEffect(() => {
-    //     fetchUserInfo()
-    // }, [first_name, last_name])
+    //     setName({
+    //         first_name: first_name,
+    //         last_name: last_name
+    //     })
+    // }, [])
+    const navigate = useNavigate()
+    const token_id = localStorage.getItem('token_id')
+    const fetchUserInfo = () => {
+        setLoading(true)
+        try {
+            const config = {
+                method: 'get',
+                url: `${url}auth/getUserInfo`,
+                headers: { 'Authorization': token_id },
+            }
+            axios(config)
+                .then((res) => {
+                    const { user } = res.data.result
+                    setName({
+                        first_name: user.first_name,
+                        last_name: user.last_name
+                    })
+                    setLoading(false)
+                }).catch((err) => {
+                    console.log('err', err);
+                    setLoading(false)
+                })
+        } catch (error) {
+            console.log('error', error);
+            setLoading(false)
+        }
+    }
+
     return (
 
         <Sider collapsible collapsed={collapsed} onCollapse={toggle} style={{ 'min-height': '100vh' }}>
             {!collapsed && (
                 <>
-                    <AdminImage />
-                    <AdminName>{first_name} {last_name}</AdminName>
+                    <Avatar size={150} icon={<UserOutlined />} style={{ margin: '1.5rem' }} />
+                    <Spin spinning={loading}>
+                        <AdminName>{name.first_name} {name.last_name}</AdminName>
+                    </Spin>
                 </>
-            )}
+            )
+            }
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 <Menu.Item key="1" icon={<DesktopOutlined />}>
                     <Link to='/'>
@@ -70,7 +113,7 @@ const Sidebar = () => {
                 }
 
             </Menu>
-        </Sider>
+        </Sider >
     )
 }
 
@@ -105,8 +148,8 @@ const Wrapper = styled.div`
 `
 
 const AdminName = styled.div`
-    margin:1rem 2.5rem;
-    font-size:1.5rem;
+    margin:0rem 2.5rem 1rem;
+    font-size:1.2rem;
     font-weight:normal;
     color:#fff;
 `
@@ -125,6 +168,9 @@ const AdminImage = styled.div`
     margin:1rem auto;
     border-radius:50%;
     background:#FFF6F6;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 `
 
 const MenuButton = styled.div`

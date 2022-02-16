@@ -66,12 +66,12 @@ const AddArticlePage = () => {
                     setTags(tag)
                     setLoading(false)
                 })
-                .catch((err) => {
-                    console.log('err', err);
+                .catch((error) => {
+                    console.log(error)
                     setLoading(false)
                 })
         } catch (error) {
-            console.log('error', error);
+            console.log(error)
             setLoading(false)
         }
     }
@@ -107,8 +107,9 @@ const AddArticlePage = () => {
                 })
                 .catch((error) => {
                     setLoading(false)
-                    error()
-                    console.log('error', error)
+                    errorModal(error.response.data.message)
+                    console.log('error', error.response.data.message)
+
                 })
         } catch (error) {
             setLoading(false)
@@ -126,10 +127,10 @@ const AddArticlePage = () => {
             )
         });
     }
-    const errorModal = () => {
+    const errorModal = (message) => {
         Modal.error({
             title: 'Error Message',
-            content: 'Network Error'
+            content: message
         });
     }
     return <Layout>

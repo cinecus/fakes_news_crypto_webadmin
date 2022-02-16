@@ -56,6 +56,14 @@ const EditArticlePage = () => {
         form.setFieldsValue({ is_show: article.is_show })
         form.setFieldsValue({ content: article.content })
     }, [article])
+
+    const errorModal = (message) => {
+        Modal.error({
+            title: 'Error Message',
+            content: message
+        });
+    }
+
     const onChangeForm = (e) => {
         const value = e.target.value
         const name = e.target.name
@@ -142,7 +150,7 @@ const EditArticlePage = () => {
                 })
                 .catch((error) => {
                     setLoading(false)
-                    error()
+                    errorModal(error.response.data.message)
                     console.log('error', error)
                 })
         } catch (error) {
@@ -162,12 +170,7 @@ const EditArticlePage = () => {
             )
         });
     }
-    const errorModal = () => {
-        Modal.error({
-            title: 'Error Message',
-            content: 'Network Error'
-        });
-    }
+
     if (loading) return <Spin></Spin>
 
     return <Layout>

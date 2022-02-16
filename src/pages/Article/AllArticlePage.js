@@ -33,6 +33,7 @@ const AllArticlePage = () => {
     };
 
     const fetchAllTag = async () => {
+
         setLoading(true)
         try {
             const config = {
@@ -57,6 +58,7 @@ const AllArticlePage = () => {
     }
 
     const fetchArticleTable = async () => {
+
         setLoading(true)
         try {
             const config = {

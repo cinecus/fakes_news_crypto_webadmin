@@ -96,6 +96,10 @@ const LoginPage = () => {
                     </Form>
                 </Spin>
             </Card>
+            <div style={{ marginTop: '1rem', color: 'white', textAlign: 'center' }}>
+                <p><span style={{ color: 'red' }}>***</span> test user cannot request API Insert and Update <span style={{ color: 'red' }}>***</span></p>
+                <p>username : observer2022 | password : fnc0000</p>
+            </div>
         </Wrapper >
     )
 }
@@ -104,6 +108,7 @@ export default LoginPage
 
 const Wrapper = styled.div`
     display:flex;
+    flex-direction:column;
     height:100vh;
     justify-content:center;
     align-items:center;
